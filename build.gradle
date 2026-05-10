@@ -1,0 +1,145 @@
+plugins {
+	id "dev.architectury.loom" version "${loom_version}"
+	id "com.diffplug.spotless" version "8.0.0"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	maven {
+		name = "Forge"
+		url = "https://maven.minecraftforge.net/"
+	}
+	maven {
+		name = "Architectury"
+		url = "https://maven.architectury.dev/"
+	}
+	maven {
+		name = "Fabric"
+		url = "https://maven.fabricmc.net/"
+	}
+	mavenCentral()
+}
+
+// Keep the dependency pins from upstream Wurst's 1.20.1 build.
+configurations.all {
+	resolutionStrategy {
+		force "org.apache.commons:commons-lang3:3.18.0"
+		force "io.netty:netty-common:4.1.118.Final"
+		force "io.netty:netty-codec:4.1.125.Final"
+		force "io.netty:netty-codec-http:4.1.125.Final"
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	forge "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+	implementation "com.google.code.findbugs:jsr305:3.0.2"
+	implementation "io.github.llamalad7:mixinextras-common:${project.mixinextras_version}"
+	annotationProcessor "io.github.llamalad7:mixinextras-common:${project.mixinextras_version}"
+	testImplementation "org.junit.jupiter:junit-jupiter:5.10.2"
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/wurst.accesswidener")
+	
+	forge {
+		mixinConfigs = [
+			"wurst.mixins.json"
+		]
+	}
+}
+
+processResources {
+	def modVersion = project.version.toString()
+	def mcVersion = project.minecraft_version.toString()
+	def forgeVersion = project.forge_version.toString()
+	inputs.property("version", modVersion)
+	inputs.property("minecraft_version", mcVersion)
+	inputs.property("forge_version", forgeVersion)
+	
+	filesMatching("META-INF/mods.toml") {
+		expand(
+			version: modVersion,
+			minecraft_version: mcVersion,
+			forge_version: forgeVersion
+		)
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = "UTF-8"
+	options.release = 17
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+	def archivesName = project.base.archivesName
+	inputs.property("archivesName", archivesName)
+	
+	from("LICENSE.txt") {
+		rename { "LICENSE-${archivesName.get()}.txt" }
+	}
+	
+	exclude("fabric.mod.json")
+	exclude("intentionally_untranslated.json")
+}
+
+def connectorCompatibleJarName =
+	"${project.archives_base_name}-${project.mod_version}-connector-compatible.jar"
+def noConnectorJarName =
+	"${project.archives_base_name}-${project.mod_version}-no-connector.jar"
+
+tasks.register("connectorCompatibleJar", Copy) {
+	dependsOn(tasks.named("remapJar"))
+	from(tasks.named("remapJar").flatMap { it.archiveFile })
+	into(layout.buildDirectory.dir("dist"))
+	rename(".*\\.jar", connectorCompatibleJarName)
+}
+
+tasks.register("noConnectorJar", Copy) {
+	dependsOn(tasks.named("remapJar"))
+	from(tasks.named("remapJar").flatMap { it.archiveFile })
+	into(layout.buildDirectory.dir("dist"))
+	rename(".*\\.jar", noConnectorJarName)
+}
+
+tasks.named("build") {
+	dependsOn("connectorCompatibleJar", "noConnectorJar")
+}
+
+import com.diffplug.spotless.generic.LicenseHeaderStep
+spotless {
+	lineEndings = "WINDOWS"
+	java {
+		removeUnusedImports()
+		leadingSpacesToTabs()
+		trimTrailingWhitespace()
+		eclipse().configFile(file("codestyle/formatter.xml"))
+	}
+	format("licenseHeader") {
+		target("src/*/java/**/*.java", "src/test/java/**/*.java")
+		def header_file = file("codestyle/license_header.txt")
+		def delimiter = LicenseHeaderStep.DEFAULT_JAVA_HEADER_DELIMITER
+		licenseHeaderFile(header_file, delimiter).updateYearWithLatest(false)
+	}
+	json {
+		target "src/**/*.json"
+		gson().indentWithSpaces(2).version("2.10.1")
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
