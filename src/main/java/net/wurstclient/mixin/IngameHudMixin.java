@@ -17,26 +17,11 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.wurstclient.WurstClient;
-import net.wurstclient.event.EventManager;
-import net.wurstclient.events.GUIRenderListener.GUIRenderEvent;
 import net.wurstclient.hack.HackList;
 
 @Mixin(InGameHud.class)
 public class IngameHudMixin
 {
-	@Inject(at = @At("TAIL"),
-		method = "render(Lnet/minecraft/client/gui/DrawContext;F)V")
-	private void onRender(DrawContext context, float tickDelta, CallbackInfo ci)
-	{
-		if(!WurstClient.INSTANCE.isInitialized())
-			return;
-		
-		if(WurstClient.MC.options.debugEnabled)
-			return;
-		
-		EventManager.fire(new GUIRenderEvent(context, tickDelta));
-	}
-	
 	@Inject(at = @At("HEAD"),
 		method = "renderOverlay(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/util/Identifier;F)V",
 		cancellable = true)
