@@ -41,8 +41,10 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	forge "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
 	implementation "com.google.code.findbugs:jsr305:3.0.2"
-	implementation "io.github.llamalad7:mixinextras-common:${project.mixinextras_version}"
-	annotationProcessor "io.github.llamalad7:mixinextras-common:${project.mixinextras_version}"
+	compileOnly(annotationProcessor(
+		"io.github.llamalad7:mixinextras-common:${project.mixinextras_version}"))
+	implementation(include(
+		"io.github.llamalad7:mixinextras-forge:${project.mixinextras_version}"))
 	testImplementation "org.junit.jupiter:junit-jupiter:5.10.2"
 	testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.10.2"
 }

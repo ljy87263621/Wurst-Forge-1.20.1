@@ -1,6 +1,8 @@
-# Wurst Client v7
+# Wurst Client v7 - Forge 1.20.1 Port
 
 ![Wurst Client logo](https://img.wimods.net/github.com/Wurst-Imperium/Wurst7?to=https://wurst.wiki/_media/logo/wurst_758x192.webp)
+
+- **Forge releases:** [https://github.com/ljy87263621/Wurst-Forge-1.20.1/releases](https://github.com/ljy87263621/Wurst-Forge-1.20.1/releases)
 
 - **Downloads:** [https://www.wurstclient.net/download/](https://go.wimods.net/from/github.com/Wurst-Imperium/Wurst7?to=https%3A%2F%2Fwww.wurstclient.net%2Fdownload%2F%3Futm_source%3DGitHub%26utm_medium%3DWurst7%2Brepo)
 
@@ -20,12 +22,14 @@
 
 ## Installation
 
-Wurst 7 can be installed just like any other Fabric mod. Here are the basic installation steps:
+This fork is a Forge 1.20.1 port of Wurst 7. It can be installed just like any other Forge client mod. Here are the basic installation steps:
 
-1. Run the Fabric installer.
-2. Add the Wurst Client and Fabric API to your mods folder.
+1. Install Minecraft Forge 1.20.1.
+2. Download one of the Forge jars from the [releases page](https://github.com/ljy87263621/Wurst-Forge-1.20.1/releases).
+3. Use the `connector-compatible` jar for Connector-compatible setups, or the `no-connector` jar for a normal Forge setup.
+4. Add the selected Wurst Client jar to your mods folder.
 
-Please refer to the [full Wurst 7 installation guide](https://go.wimods.net/from/github.com/Wurst-Imperium/Wurst7?to=https%3A%2F%2Fwww.wurstclient.net%2Ftutorials%2Fhow-to-install%2F%3Futm_source%3DGitHub%26utm_medium%3DWurst7%2Brepo) if you need more detailed instructions or run into any problems.
+Please refer to the [full Wurst 7 installation guide](https://go.wimods.net/from/github.com/Wurst-Imperium/Wurst7?to=https%3A%2F%2Fwww.wurstclient.net%2Ftutorials%2Fhow-to-install%2F%3Futm_source%3DGitHub%26utm_medium%3DWurst7%2Brepo) for general Wurst usage notes. The upstream guide is written for the official Fabric version, so use the Forge release jars from this repository when installing this port.
 
 Also, this should be obvious, but you do need to have a licensed copy of Minecraft Java Edition in order to use Wurst. Wurst is a cheat client, not a pirate client.
 
@@ -39,8 +43,8 @@ Also, this should be obvious, but you do need to have a licensed copy of Minecra
 1. Clone the repository:
 
    ```pwsh
-   git clone https://github.com/Wurst-Imperium/Wurst7.git
-   cd Wurst7
+   git clone https://github.com/ljy87263621/Wurst-Forge-1.20.1.git
+   cd Wurst-Forge-1.20.1
    ```
 
 2. Generate the sources:
@@ -61,27 +65,27 @@ Also, this should be obvious, but you do need to have a licensed copy of Minecra
 1. Clone the repository:
 
    ```pwsh
-   git clone https://github.com/Wurst-Imperium/Wurst7.git
-   cd Wurst7
+   git clone https://github.com/ljy87263621/Wurst-Forge-1.20.1.git
+   cd Wurst-Forge-1.20.1
    ```
 
 2. Generate the sources:
 
    ```pwsh
    ./gradlew genSources vscode
-```
+   ```
 
-3. Open the `Wurst7` folder in VSCode / Cursor.
+3. Open the `Wurst-Forge-1.20.1` folder in VSCode / Cursor.
 
-4. **Optional:** In the VSCode settings, set `java.format.settings.url` to `https://raw.githubusercontent.com/Wurst-Imperium/Wurst7/master/codestyle/formatter.xml` and `java.format.settings.profile` to `Wurst-Imperium`.
+4. **Optional:** In the VSCode settings, set `java.format.settings.url` to `https://raw.githubusercontent.com/ljy87263621/Wurst-Forge-1.20.1/main/codestyle/formatter.xml` and `java.format.settings.profile` to `Wurst-Imperium`.
 
 ### Development using IntelliJ IDEA
 
 I don't use or recommend IntelliJ, but the commands to run would be:
 
 ```pwsh
-git clone https://github.com/Wurst-Imperium/Wurst7.git
-cd Wurst7
+git clone https://github.com/ljy87263621/Wurst-Forge-1.20.1.git
+cd Wurst-Forge-1.20.1
 ./gradlew genSources idea --no-configuration-cache
 ```
 
@@ -101,7 +105,7 @@ We also have [contributing guidelines](https://go.wimods.net/from/github.com/Wur
 
 To enable translations in-game, go to Wurst Options > Translations > ON.
 
-The preferred way to submit translations is through a Pull Request here on GitHub. The translation files are located in [this folder](https://go.wimods.net/from/github.com/Wurst-Imperium/Wurst7?to=https://github.com/Wurst-Imperium/Wurst7/tree/master/src/main/resources/assets/wurst/translations).
+The preferred way to submit translations is through a Pull Request here on GitHub. The translation files are located in [this folder](https://github.com/ljy87263621/Wurst-Forge-1.20.1/tree/main/src/main/resources/assets/wurst/translations).
 
 Names of features (hacks/commands/etc.) should always be kept in English. This ensures that everyone can use the same commands, keybinds, etc. regardless of their language setting. It also makes it easier to communicate with someone who uses Wurst in a different language.
 
