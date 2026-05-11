@@ -1,8 +1,8 @@
-# Wurst Client v7 - Forge 1.20.1 Port (No Connector)
+# Wurst Client v7 - Forge 1.20.1 Port (Connector Compatible)
 
 ![Wurst Client logo](https://img.wimods.net/github.com/Wurst-Imperium/Wurst7?to=https://wurst.wiki/_media/logo/wurst_758x192.webp)
 
-- **Branch:** `no_connector`
+- **Branch:** `connector_Compatible`
 
 - **Forge releases:** [https://github.com/ljy87263621/Wurst-Forge-1.20.1/releases](https://github.com/ljy87263621/Wurst-Forge-1.20.1/releases)
 
@@ -24,14 +24,14 @@
 
 ## Installation
 
-This branch builds the native Forge version that does not require Connector. It
-includes the Forge runtime dependency needed by the port and can be installed
-like any other Forge client mod.
+This branch builds the Connector-compatible Forge version. It expects the
+Connector-compatible environment to provide shared runtime dependencies such as
+MixinExtras, so the jar stays slimmer than the native no-connector branch.
 
 Here are the basic installation steps:
 
 1. Install Minecraft Forge 1.20.1.
-2. Download the `no-connector` Forge jar from the [releases page](https://github.com/ljy87263621/Wurst-Forge-1.20.1/releases) or build it from this branch.
+2. Download the `connector-compatible` Forge jar from the [releases page](https://github.com/ljy87263621/Wurst-Forge-1.20.1/releases) or build it from this branch.
 3. Add the Wurst Client jar to your mods folder.
 
 Please refer to the [full Wurst 7 installation guide](https://go.wimods.net/from/github.com/Wurst-Imperium/Wurst7?to=https%3A%2F%2Fwww.wurstclient.net%2Ftutorials%2Fhow-to-install%2F%3Futm_source%3DGitHub%26utm_medium%3DWurst7%2Brepo) for general Wurst usage notes. The upstream guide is written for the official Fabric version, so use the Forge release jars from this repository when installing this port.
@@ -50,7 +50,7 @@ Also, this should be obvious, but you do need to have a licensed copy of Minecra
    ```pwsh
    git clone https://github.com/ljy87263621/Wurst-Forge-1.20.1.git
    cd Wurst-Forge-1.20.1
-   git switch no_connector
+   git switch connector_Compatible
    ```
 
 2. Generate the sources:
@@ -73,7 +73,7 @@ Also, this should be obvious, but you do need to have a licensed copy of Minecra
    ```pwsh
    git clone https://github.com/ljy87263621/Wurst-Forge-1.20.1.git
    cd Wurst-Forge-1.20.1
-   git switch no_connector
+   git switch connector_Compatible
    ```
 
 2. Generate the sources:
@@ -93,7 +93,7 @@ I don't use or recommend IntelliJ, but the commands to run would be:
 ```pwsh
 git clone https://github.com/ljy87263621/Wurst-Forge-1.20.1.git
 cd Wurst-Forge-1.20.1
-git switch no_connector
+git switch connector_Compatible
 ./gradlew genSources idea --no-configuration-cache
 ```
 

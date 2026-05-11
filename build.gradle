@@ -43,8 +43,7 @@ dependencies {
 	implementation "com.google.code.findbugs:jsr305:3.0.2"
 	compileOnly(annotationProcessor(
 		"io.github.llamalad7:mixinextras-common:${project.mixinextras_version}"))
-	implementation(include(
-		"io.github.llamalad7:mixinextras-forge:${project.mixinextras_version}"))
+	compileOnly("io.github.llamalad7:mixinextras-forge:${project.mixinextras_version}")
 	testImplementation "org.junit.jupiter:junit-jupiter:5.10.2"
 	testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.10.2"
 }
@@ -99,18 +98,18 @@ jar {
 	exclude("intentionally_untranslated.json")
 }
 
-def noConnectorJarName =
-	"${project.archives_base_name}-${project.mod_version}-no-connector.jar"
+def connectorCompatibleJarName =
+	"${project.archives_base_name}-${project.mod_version}-connector-compatible.jar"
 
-tasks.register("noConnectorJar", Copy) {
+tasks.register("connectorCompatibleJar", Copy) {
 	dependsOn(tasks.named("remapJar"))
 	from(tasks.named("remapJar").flatMap { it.archiveFile })
 	into(layout.buildDirectory.dir("dist"))
-	rename(".*\\.jar", noConnectorJarName)
+	rename(".*\\.jar", connectorCompatibleJarName)
 }
 
 tasks.named("build") {
-	dependsOn("noConnectorJar")
+	dependsOn("connectorCompatibleJar")
 }
 
 import com.diffplug.spotless.generic.LicenseHeaderStep
