@@ -10,104 +10,112 @@ package net.minecraft.client.render;
 import java.util.OptionalDouble;
 
 import net.minecraft.client.render.VertexFormat.DrawMode;
+import net.wurstclient.mixin.RenderLayerInvoker;
+import net.wurstclient.mixin.RenderPhaseAccessor;
 
 public enum WurstRenderLayerBridge
 {
 	;
 	
 	public static final RenderLayer.MultiPhase ONE_PIXEL_LINES =
-		RenderLayer.of("wurst:1px_lines", VertexFormats.POSITION_COLOR,
-			DrawMode.DEBUG_LINES, 1536, false, true,
+		RenderLayerInvoker.wurstCreate("wurst:1px_lines",
+			VertexFormats.POSITION_COLOR, DrawMode.DEBUG_LINES, 1536, false,
+			true,
 			RenderLayer.MultiPhaseParameters.builder()
-				.program(RenderLayer.COLOR_PROGRAM)
+				.program(RenderPhaseAccessor.getColorProgram())
 				.lineWidth(new RenderPhase.LineWidth(OptionalDouble.of(1)))
-				.transparency(RenderLayer.TRANSLUCENT_TRANSPARENCY)
-				.cull(RenderLayer.DISABLE_CULLING).build(false));
+				.transparency(RenderPhaseAccessor.getTranslucentTransparency())
+				.cull(RenderPhaseAccessor.getDisableCulling()).build(false));
 	
 	public static final RenderLayer.MultiPhase ONE_PIXEL_LINE_STRIP =
-		RenderLayer.of("wurst:1px_line_strip", VertexFormats.POSITION_COLOR,
-			DrawMode.DEBUG_LINE_STRIP, 1536, false, true,
+		RenderLayerInvoker.wurstCreate("wurst:1px_line_strip",
+			VertexFormats.POSITION_COLOR, DrawMode.DEBUG_LINE_STRIP, 1536,
+			false, true,
 			RenderLayer.MultiPhaseParameters.builder()
-				.program(RenderLayer.COLOR_PROGRAM)
+				.program(RenderPhaseAccessor.getColorProgram())
 				.lineWidth(new RenderPhase.LineWidth(OptionalDouble.of(1)))
-				.transparency(RenderLayer.TRANSLUCENT_TRANSPARENCY)
-				.cull(RenderLayer.DISABLE_CULLING).build(false));
+				.transparency(RenderPhaseAccessor.getTranslucentTransparency())
+				.cull(RenderPhaseAccessor.getDisableCulling()).build(false));
 	
 	public static final RenderLayer.MultiPhase LINES =
-		RenderLayer.of("wurst:lines", VertexFormats.LINES,
+		RenderLayerInvoker.wurstCreate("wurst:lines", VertexFormats.LINES,
 			VertexFormat.DrawMode.LINES, 1536, false, true,
 			RenderLayer.MultiPhaseParameters.builder()
-				.program(RenderLayer.LINES_PROGRAM)
+				.program(RenderPhaseAccessor.getLinesProgram())
 				.lineWidth(new RenderPhase.LineWidth(OptionalDouble.of(2)))
-				.layering(RenderLayer.VIEW_OFFSET_Z_LAYERING)
-				.transparency(RenderLayer.TRANSLUCENT_TRANSPARENCY)
-				.target(RenderLayer.ITEM_ENTITY_TARGET)
-				.writeMaskState(RenderLayer.ALL_MASK)
-				.depthTest(RenderLayer.LEQUAL_DEPTH_TEST)
-				.cull(RenderLayer.DISABLE_CULLING).build(false));
+				.layering(RenderPhaseAccessor.getViewOffsetZLayering())
+				.transparency(RenderPhaseAccessor.getTranslucentTransparency())
+				.target(RenderPhaseAccessor.getItemEntityTarget())
+				.writeMaskState(RenderPhaseAccessor.getAllMask())
+				.depthTest(RenderPhaseAccessor.getLequalDepthTest())
+				.cull(RenderPhaseAccessor.getDisableCulling()).build(false));
 	
 	public static final RenderLayer.MultiPhase ESP_LINES =
-		RenderLayer.of("wurst:esp_lines", VertexFormats.LINES,
+		RenderLayerInvoker.wurstCreate("wurst:esp_lines", VertexFormats.LINES,
 			VertexFormat.DrawMode.LINES, 1536, false, true,
 			RenderLayer.MultiPhaseParameters.builder()
-				.program(RenderLayer.LINES_PROGRAM)
+				.program(RenderPhaseAccessor.getLinesProgram())
 				.lineWidth(new RenderPhase.LineWidth(OptionalDouble.of(2)))
-				.layering(RenderLayer.VIEW_OFFSET_Z_LAYERING)
-				.transparency(RenderLayer.TRANSLUCENT_TRANSPARENCY)
-				.target(RenderLayer.ITEM_ENTITY_TARGET)
-				.writeMaskState(RenderLayer.ALL_MASK)
-				.depthTest(RenderLayer.ALWAYS_DEPTH_TEST)
-				.cull(RenderLayer.DISABLE_CULLING).build(false));
+				.layering(RenderPhaseAccessor.getViewOffsetZLayering())
+				.transparency(RenderPhaseAccessor.getTranslucentTransparency())
+				.target(RenderPhaseAccessor.getItemEntityTarget())
+				.writeMaskState(RenderPhaseAccessor.getAllMask())
+				.depthTest(RenderPhaseAccessor.getAlwaysDepthTest())
+				.cull(RenderPhaseAccessor.getDisableCulling()).build(false));
 	
 	public static final RenderLayer.MultiPhase LINE_STRIP =
-		RenderLayer.of("wurst:line_strip", VertexFormats.LINES,
+		RenderLayerInvoker.wurstCreate("wurst:line_strip", VertexFormats.LINES,
 			VertexFormat.DrawMode.LINE_STRIP, 1536, false, true,
 			RenderLayer.MultiPhaseParameters.builder()
-				.program(RenderLayer.LINES_PROGRAM)
+				.program(RenderPhaseAccessor.getLinesProgram())
 				.lineWidth(new RenderPhase.LineWidth(OptionalDouble.of(2)))
-				.layering(RenderLayer.VIEW_OFFSET_Z_LAYERING)
-				.transparency(RenderLayer.TRANSLUCENT_TRANSPARENCY)
-				.target(RenderLayer.ITEM_ENTITY_TARGET)
-				.writeMaskState(RenderLayer.ALL_MASK)
-				.depthTest(RenderLayer.LEQUAL_DEPTH_TEST)
-				.cull(RenderLayer.DISABLE_CULLING).build(false));
+				.layering(RenderPhaseAccessor.getViewOffsetZLayering())
+				.transparency(RenderPhaseAccessor.getTranslucentTransparency())
+				.target(RenderPhaseAccessor.getItemEntityTarget())
+				.writeMaskState(RenderPhaseAccessor.getAllMask())
+				.depthTest(RenderPhaseAccessor.getLequalDepthTest())
+				.cull(RenderPhaseAccessor.getDisableCulling()).build(false));
 	
 	public static final RenderLayer.MultiPhase ESP_LINE_STRIP =
-		RenderLayer.of("wurst:esp_line_strip", VertexFormats.LINES,
-			VertexFormat.DrawMode.LINE_STRIP, 1536, false, true,
+		RenderLayerInvoker.wurstCreate("wurst:esp_line_strip",
+			VertexFormats.LINES, VertexFormat.DrawMode.LINE_STRIP, 1536, false,
+			true,
 			RenderLayer.MultiPhaseParameters.builder()
-				.program(RenderLayer.LINES_PROGRAM)
+				.program(RenderPhaseAccessor.getLinesProgram())
 				.lineWidth(new RenderPhase.LineWidth(OptionalDouble.of(2)))
-				.layering(RenderLayer.VIEW_OFFSET_Z_LAYERING)
-				.transparency(RenderLayer.TRANSLUCENT_TRANSPARENCY)
-				.target(RenderLayer.ITEM_ENTITY_TARGET)
-				.writeMaskState(RenderLayer.ALL_MASK)
-				.depthTest(RenderLayer.ALWAYS_DEPTH_TEST)
-				.cull(RenderLayer.DISABLE_CULLING).build(false));
+				.layering(RenderPhaseAccessor.getViewOffsetZLayering())
+				.transparency(RenderPhaseAccessor.getTranslucentTransparency())
+				.target(RenderPhaseAccessor.getItemEntityTarget())
+				.writeMaskState(RenderPhaseAccessor.getAllMask())
+				.depthTest(RenderPhaseAccessor.getAlwaysDepthTest())
+				.cull(RenderPhaseAccessor.getDisableCulling()).build(false));
 	
-	public static final RenderLayer.MultiPhase QUADS =
-		RenderLayer.of("wurst:quads", VertexFormats.POSITION_COLOR,
+	public static final RenderLayer.MultiPhase QUADS = RenderLayerInvoker
+		.wurstCreate("wurst:quads", VertexFormats.POSITION_COLOR,
 			VertexFormat.DrawMode.QUADS, 1536, false, true,
 			RenderLayer.MultiPhaseParameters.builder()
-				.program(RenderLayer.COLOR_PROGRAM)
-				.transparency(RenderLayer.TRANSLUCENT_TRANSPARENCY)
-				.depthTest(RenderLayer.LEQUAL_DEPTH_TEST).build(false));
+				.program(RenderPhaseAccessor.getColorProgram())
+				.transparency(RenderPhaseAccessor.getTranslucentTransparency())
+				.depthTest(RenderPhaseAccessor.getLequalDepthTest())
+				.build(false));
 	
-	public static final RenderLayer.MultiPhase ESP_QUADS =
-		RenderLayer.of("wurst:esp_quads", VertexFormats.POSITION_COLOR,
+	public static final RenderLayer.MultiPhase ESP_QUADS = RenderLayerInvoker
+		.wurstCreate("wurst:esp_quads", VertexFormats.POSITION_COLOR,
 			VertexFormat.DrawMode.QUADS, 1536, false, true,
 			RenderLayer.MultiPhaseParameters.builder()
-				.program(RenderLayer.COLOR_PROGRAM)
-				.transparency(RenderLayer.TRANSLUCENT_TRANSPARENCY)
-				.depthTest(RenderLayer.ALWAYS_DEPTH_TEST).build(false));
+				.program(RenderPhaseAccessor.getColorProgram())
+				.transparency(RenderPhaseAccessor.getTranslucentTransparency())
+				.depthTest(RenderPhaseAccessor.getAlwaysDepthTest())
+				.build(false));
 	
 	public static final RenderLayer.MultiPhase ESP_QUADS_NO_CULLING =
-		RenderLayer.of("wurst:esp_quads_no_culling",
+		RenderLayerInvoker.wurstCreate("wurst:esp_quads_no_culling",
 			VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.QUADS, 1536,
 			false, true,
 			RenderLayer.MultiPhaseParameters.builder()
-				.program(RenderLayer.COLOR_PROGRAM)
-				.transparency(RenderLayer.TRANSLUCENT_TRANSPARENCY)
-				.cull(RenderLayer.DISABLE_CULLING)
-				.depthTest(RenderLayer.ALWAYS_DEPTH_TEST).build(false));
+				.program(RenderPhaseAccessor.getColorProgram())
+				.transparency(RenderPhaseAccessor.getTranslucentTransparency())
+				.cull(RenderPhaseAccessor.getDisableCulling())
+				.depthTest(RenderPhaseAccessor.getAlwaysDepthTest())
+				.build(false));
 }

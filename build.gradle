@@ -99,17 +99,8 @@ jar {
 	exclude("intentionally_untranslated.json")
 }
 
-def connectorCompatibleJarName =
-	"${project.archives_base_name}-${project.mod_version}-connector-compatible.jar"
 def noConnectorJarName =
 	"${project.archives_base_name}-${project.mod_version}-no-connector.jar"
-
-tasks.register("connectorCompatibleJar", Copy) {
-	dependsOn(tasks.named("remapJar"))
-	from(tasks.named("remapJar").flatMap { it.archiveFile })
-	into(layout.buildDirectory.dir("dist"))
-	rename(".*\\.jar", connectorCompatibleJarName)
-}
 
 tasks.register("noConnectorJar", Copy) {
 	dependsOn(tasks.named("remapJar"))
@@ -119,7 +110,7 @@ tasks.register("noConnectorJar", Copy) {
 }
 
 tasks.named("build") {
-	dependsOn("connectorCompatibleJar", "noConnectorJar")
+	dependsOn("noConnectorJar")
 }
 
 import com.diffplug.spotless.generic.LicenseHeaderStep

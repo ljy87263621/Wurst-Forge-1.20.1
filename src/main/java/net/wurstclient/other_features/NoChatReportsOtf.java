@@ -22,6 +22,7 @@ import net.wurstclient.DontBlock;
 import net.wurstclient.SearchTags;
 import net.wurstclient.events.ChatInputListener;
 import net.wurstclient.events.UpdateListener;
+import net.wurstclient.mixinterface.IClientPlayNetworkHandler;
 import net.wurstclient.other_feature.OtherFeature;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.util.ChatUtils;
@@ -57,17 +58,19 @@ public final class NoChatReportsOtf extends OtherFeature
 		if(netHandler == null)
 			return;
 		
+		IClientPlayNetworkHandler inetHandler =
+			(IClientPlayNetworkHandler)netHandler;
+		
 		if(isActive())
 		{
-			netHandler.session = null;
-			netHandler.messagePacker = MessageChain.Packer.NONE;
+			inetHandler.setWurstSession(null);
+			inetHandler.setWurstMessagePacker(MessageChain.Packer.NONE);
 			
-		}else if(netHandler.session == null)
-			MC.getProfileKeys().fetchKeyPair()
-				.thenAcceptAsync(optional -> optional
-					.ifPresent(profileKeys -> netHandler.session =
-						ClientPlayerSession.create(profileKeys)),
-					MC);
+		}else if(inetHandler.getWurstSession() == null)
+			MC.getProfileKeys().fetchKeyPair().thenAcceptAsync(
+				optional -> optional.ifPresent(profileKeys -> inetHandler
+					.setWurstSession(ClientPlayerSession.create(profileKeys))),
+				MC);
 		
 		EVENTS.remove(UpdateListener.class, this);
 	}

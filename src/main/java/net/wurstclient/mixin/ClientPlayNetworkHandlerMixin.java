@@ -21,7 +21,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.network.ClientConnection;
+import net.minecraft.network.encryption.ClientPlayerSession;
 import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.message.MessageChain;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.ChunkData;
@@ -32,15 +34,20 @@ import net.minecraft.text.Text;
 import net.wurstclient.WurstClient;
 import net.wurstclient.event.EventManager;
 import net.wurstclient.events.PacketOutputListener.PacketOutputEvent;
+import net.wurstclient.mixinterface.IClientPlayNetworkHandler;
 import net.wurstclient.util.ChatUtils;
 
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin
-	implements ClientPlayPacketListener
+	implements ClientPlayPacketListener, IClientPlayNetworkHandler
 {
 	@Shadow
 	@Final
 	private MinecraftClient client;
+	@Shadow
+	private ClientPlayerSession session;
+	@Shadow
+	private MessageChain.Packer messagePacker;
 	
 	@WrapOperation(at = @At(value = "INVOKE",
 		target = "Lnet/minecraft/network/ClientConnection;send(Lnet/minecraft/network/packet/Packet;)V"),
@@ -67,8 +74,9 @@ public abstract class ClientPlayNetworkHandlerMixin
 		// Remove Mojang's dishonest warning toast on safe servers
 		if(!packet.isSecureChatEnforced())
 		{
-			client.getToastManager().toastQueue.removeIf(toast -> toast
-				.getType() == SystemToast.Type.UNSECURE_SERVER_WARNING);
+			((ToastManagerAccessor)client.getToastManager()).getToastQueue()
+				.removeIf(toast -> toast
+					.getType() == SystemToast.Type.UNSECURE_SERVER_WARNING);
 			return;
 		}
 		
@@ -106,5 +114,23 @@ public abstract class ClientPlayNetworkHandlerMixin
 		packet.visitUpdates(
 			(pos, state) -> WurstClient.INSTANCE.getHax().newChunksHack
 				.afterUpdateBlock(pos));
+	}
+	
+	@Override
+	public ClientPlayerSession getWurstSession()
+	{
+		return session;
+	}
+	
+	@Override
+	public void setWurstSession(ClientPlayerSession session)
+	{
+		this.session = session;
+	}
+	
+	@Override
+	public void setWurstMessagePacker(MessageChain.Packer messagePacker)
+	{
+		this.messagePacker = messagePacker;
 	}
 }
