@@ -86,6 +86,14 @@ java {
 	targetCompatibility = JavaVersion.VERSION_17
 }
 
+sourceSets {
+	main {
+		java {
+			exclude("net/wurstclient/test/**")
+		}
+	}
+}
+
 jar {
 	def archivesName = project.base.archivesName
 	inputs.property("archivesName", archivesName)
